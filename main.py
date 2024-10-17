@@ -46,6 +46,8 @@ async def cadastra_atendimento(body: Atendimento):
     
     return body
 
+#COMENTOD
+
 # Rota para alterar o atendimento
 @app.post("/altera-registro-atendimento")
 async def atualiza_atendimento(telefone: int, body: Atendimento):
