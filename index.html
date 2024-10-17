@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exibir Dados da API</title>
+</head>
+<body>
+
+<h1>Dados do Atendimento</h1>
+<div id="dados"></div>
+
+<script>
+    // URL da API local
+    const apiUrl = 'http://localhost:8000/consulta-atendimentos';
+
+    // Função para buscar dados da API
+    async function buscarDados() {
+        try {
+            // Fazendo a requisição GET à API
+            const response = await fetch(apiUrl);
+
+            // Verificando se a requisição foi bem-sucedida
+            if (!response.ok) {
+                throw new Error('Erro ao buscar dados da API');
+            }
+
+            // Convertendo a resposta para JSON
+            const data = await response.json();
+
+            // Exibindo os dados na página HTML
+            mostrarDados(data);
+        } catch (error) {
+            console.error(error);
+            document.getElementById('dados').innerText = 'Erro ao carregar dados.';
+        }
+    }
+
+    // Função para exibir os dados no HTML
+    function mostrarDados(dados) {
+        const container = document.getElementById('dados');
+
+        // Se os dados forem uma lista, iteramos sobre eles
+        dados.forEach(atendimento => {
+            const atendimentoDiv = document.createElement('div');
+            atendimentoDiv.innerHTML = `
+                <p><strong>Cliente:</strong> ${atendimento.cliente}</p>
+                <p><strong>Telefone:</strong> ${atendimento.telefone}</p>
+                <p><strong>Descrição do Equipamento:</strong> ${atendimento.descricao_equipamento}</p>
+                <p><strong>Técnico Responsável:</strong> ${atendimento.tecnico_responsavel}</p>
+                <hr>
+            `;
+            container.appendChild(atendimentoDiv);
+        });
+    }
+
+    // Chamar a função para buscar os dados ao carregar a página
+    window.onload = buscarDados;
+</script>
+
+</body>
+</html>

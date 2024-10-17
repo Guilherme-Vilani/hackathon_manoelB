@@ -1,6 +1,20 @@
 from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel
 
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# Habilitar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas as origens
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos os métodos (GET, POST, PUT, DELETE)
+    allow_headers=["*"],  # Permite todos os cabeçalhos
+)
+
 class Atendimento(BaseModel):
     cliente: str
     telefone: int
@@ -9,9 +23,6 @@ class Atendimento(BaseModel):
 
 
 atendimentos = []
-
-# Criar a instância do FastAPI
-app = FastAPI()
 
 @app.get("/consulta-atendimentos")
 async def consulta_atendimentos():
